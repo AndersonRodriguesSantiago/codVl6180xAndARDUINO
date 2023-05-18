@@ -18,12 +18,12 @@
 
 
 #define SCALING 1 //Definindo o valor da palavra SCALING q será utilizada para alterar o valor da escala
-#define SHT_sens1 4 //Substiuir n pelo pino do STM q estiver ligado o SHDN e...
+#define SHT_sens1 4 //Substiuir este número (ou usar esse pino mesmo) pelo pino do Arduino q estiver ligado o SHDN e...
 #define SHT_sens2 2 //...aqui o mesmo
 #define SHT_sens3 5 //...aqui o mesmo
 
 
-VL6180X sensor1;//Pelo que entendi é necessário um objeto para cada sensor
+VL6180X sensor1;//É necessário um objeto para cada sensor
 VL6180X sensor2;
 VL6180X sensor3;
 
@@ -32,11 +32,11 @@ void setup()
   Serial.begin(9600);
   Wire.begin();
 
-  //Instanciando os sensores desligados para resetar combase no link 3 porém possívelmente desnecessário ja que não vamos mudar o endereço inicial dos sensores (vamos?)
+  //Instanciando os sensores desligados para resetar com base no link 3
 
   //Baseado no link3 ==================================================================================================================================================================
-  //Observação: pelo q entendi ligando e iniciando os sensores um por um permite q eles recebam diferentes endereços, caso contrário todos os sensores ligados ao mesmo tempo faz com q
-  //            recebam o mesmo endereço e logo o código irá fornecer a leitura de todos os sensores como se fosse um
+  //Observação: pelo que entendi ligando e iniciando os sensores um por um permite q eles recebam diferentes endereços, caso contrário todos os sensores ligados ao mesmo tempo faz com q
+  //            recebam o mesmo endereço e logo o código irá fornecer a leitura de todos os sensores como se fosse um. Isso gera erro na leitura
 
   pinMode(SHT_sens1, OUTPUT);
   pinMode(SHT_sens2, OUTPUT);
@@ -62,12 +62,12 @@ void setup()
   digitalWrite(SHT_sens1, HIGH);
   digitalWrite(SHT_sens2, LOW);
   digitalWrite(SHT_sens3, LOW);
-  delay(500); //aqui estava **delay(50)**; mas estava dando erro ent mudei
+  delay(500); //aqui estava **delay(50)**; mas estava dando erro então mudei
   sensor1.init();
   sensor1.configureDefault();
   sensor1.setScaling(SCALING);
   sensor1.setTimeout(500);
-  sensor1.setAddress(0x80);//Dando um endereço novo ao sensor1, vindo do link2 //Pode ser válido testar com os endereços q o link3 sugere na linha46 ou q ele utilizou na linha 4
+  sensor1.setAddress(0x80);//Dando um endereço novo ao sensor1, vindo do link2 //Pode ser válido testar com os endereços q o link3 sugere na linha 46 ou que ele utilizou na linha 4
   delay(500);
 
   //Iniciando o sensor2
